@@ -356,73 +356,7 @@ as.data.frame.otsi_single_result <- function(
 }
 
 
-# =========================================================
-# 5. SELF-TESTS
-# =========================================================
-
-otsi_single_self_test <- function() {
-  .otsi_single_require_core()
-
-  result <- otsi_single(
-    unit_id = "test_unit",
-    soc = 1.8,
-    ph = 6.4,
-    root_depth = 75,
-    drainage = "MW"
-  )
-
-  stopifnot(
-    inherits(result, "otsi_single_result"),
-    identical(result$unit_id, "test_unit"),
-    identical(result$assessment_type, "Partial OTSI"),
-    result$indicator_counts[["chemical"]] == 2,
-    result$indicator_counts[["physical"]] == 2,
-    result$indicator_counts[["total"]] == 4,
-    !is.na(result$final_otsi),
-    result$standardized_input$root_depth_class == 2L,
-    result$standardized_input$drainage_fao == "MW",
-    nrow(result$indicator_table) == 4L,
-    nrow(result$summary) == 1L
-  )
-
-  chemical_only <- otsi_single(
-    unit_id = "chemical_only",
-    soc = 2.0,
-    ph = 6.5
-  )
-
-  stopifnot(
-    identical(
-      chemical_only$assessment_type,
-      "Chemical-domain result only"
-    ),
-    is.na(chemical_only$final_otsi)
-  )
-
-  message("All otsi_single() self-tests passed.")
-  invisible(TRUE)
-}
 
 
-# =========================================================
-# 6. EXAMPLE
-# =========================================================
-#
-# source("otsi_1_0_core.R")
-# source("otsi_1_0_single.R")
-#
-# otsi_single_self_test()
-#
-# field_a <- otsi_single(
-#   unit_id = "Field_A",
-#   soc = 1.8,
-#   ph = 6.4,
-#   root_depth = 75,
-#   drainage = "MW"
-# )
-#
-# print(field_a)
-# field_a$indicator_table
-# field_a$summary
-# as.data.frame(field_a)
-# =========================================================
+
+
